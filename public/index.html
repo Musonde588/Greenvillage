@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Village - Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #e8f5e9, #ffffff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-container h1 {
+      margin-bottom: 1.5rem;
+      color: #4caf50;
+    }
+    .login-container i {
+      font-size: 2.5rem;
+      color: #4caf50;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #4caf50;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    .error-message {
+      color: #f44336;
+      margin-top: 1rem;
+      display: none;
+    }
+    .auth-message {
+      margin-top: 1rem;
+      color: #d32f2f;
+      font-size: 0.9rem;
+      min-height: 20px;
+    }
+    .auth-link {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .auth-link a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .auth-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <i class="fas fa-leaf"></i>
+    <h1>Green Village</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required placeholder="votre@email.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" required placeholder="••••••••">
+      </div>
+      <button type="submit">Se connecter</button>
+      <div id="errorMessage" class="error-message"></div>
+    </form>
+    <div id="auth-message" class="auth-message"></div>
+    <p class="auth-link">Pas de compte ? <a href="#" id="register-link">S'inscrire</a></p>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyBiehIi38zFpJTE4HDAdTa9RMHY8pwrrOk",
+    authDomain: "green-village-91449.firebaseapp.com",
+    databaseURL: "https://green-village-91449-default-rtdb.firebaseio.com",
+    projectId: "green-village-91449",
+    storageBucket: "green-village-91449.firebasestorage.app",
+    messagingSenderId: "346247076084",
+    appId: "1:346247076084:web:5f57054a0aa5243c5226a1",
+    measurementId: "G-W55V81G0ZM"
+    };
+
+    // Initialiser Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Affiche un message d'erreur
+    function showAuthError(message) {
+      const authMessage = document.getElementById('auth-message');
+      authMessage.textContent = message;
+    }
+
+    // Redirection vers le dashboard
+    function showDashboard() {
+      window.location.href = "dashboard.html";
+    }
+
+    // Fonction pour créer un utilisateur
+    function registerUser(email, password) {
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          let currentUser = userCredential.user;
+          showDashboard();
+        })
+        .catch((error) => {
+          showAuthError(error.message);
+        });
+    }
+
+    // Gestion de l'inscription
+    document.getElementById('register-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if (!email || !password) {
+        showAuthError("Veuillez entrer un email et un mot de passe");
+        return;
+      }
+      
+      registerUser(email, password);
+    });
+
+    // Gérer la soumission du formulaire de connexion
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          showDashboard();
+        })
+        .catch((error) => {
+          errorMessage.textContent = getErrorMessage(error.code);
+          errorMessage.style.display = 'block';
+        });
+    });
+
+    // Traduction des codes d'erreur Firebase
+    function getErrorMessage(errorCode) {
+      switch(errorCode) {
+        case 'auth/invalid-email':
+          return 'Email invalide';
+        case 'auth/user-disabled':
+          return 'Compte désactivé';
+        case 'auth/user-not-found':
+          return 'Aucun compte trouvé avec cet email';
+        case 'auth/wrong-password':
+          return 'Mot de passe incorrect';
+        default:
+          return 'Erreur de connexion';
+      }
+    }
+
+    // Vérifier si l'utilisateur est déjà connecté
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        showDashboard();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Village Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-leaf"></i> Green Village Tableau de Bord</h1>
+    <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+  </header>
+
+  <main>
+    <div class="card" id="terrain1">
+      <h2>Terrain 1</h2>
+      <div class="chart-container">
+        <canvas id="chart1"></canvas>
+        <div class="label-center" id="sol1Label">--%</div>
+      </div>
+      <div class="info">
+        <div class="progress-container">
+          <label>🌡️ Température: <span id="temp1">--</span> °C</label>
+          <progress id="tempProgress1" value="0" max="50"></progress>
+        </div>
+        <div class="progress-container">
+          <label>💧 Humidité Air: <span id="hum1">--</span> %</label>
+          <progress id="humProgress1" value="0" max="100"></progress>
+        </div>
+        <div class="pump-status-container">
+          <span>🚰 Pompe: <span class="pump-status" id="pompe1">--</span></span>
+        </div>
+        <div class="threshold-control">
+          <label for="threshold1">Seuil d'humidité (%):</label>
+          <input type="number" id="threshold1" min="0" max="100" step="5">
+          <button onclick="updateThreshold('terrain1')">Appliquer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="terrain2">
+      <h2>Terrain 2</h2>
+      <div class="chart-container">
+        <canvas id="chart2"></canvas>
+        <div class="label-center" id="sol2Label">--%</div>
+      </div>
+      <div class="info">
+        <div class="progress-container">
+          <label>🌡️ Température: <span id="temp2">--</span> °C</label>
+          <progress id="tempProgress2" value="0" max="50"></progress>
+        </div>
+        <div class="progress-container">
+          <label>💧 Humidité Air: <span id="hum2">--</span> %</label>
+          <progress id="humProgress2" value="0" max="100"></progress>
+        </div>
+        <div class="pump-status-container">
+          <span>🚰 Pompe: <span class="pump-status" id="pompe2">--</span></span>
+        </div>
+        <div class="threshold-control">
+          <label for="threshold2">Seuil d'humidité (%):</label>
+          <input type="number" id="threshold2" min="0" max="100" step="5">
+          <button onclick="updateThreshold('terrain2')">Appliquer</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Green Village - Conçu pour un avenir vert 🌿
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    // Vérifier l'état d'authentification
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    // Gérer la déconnexion
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      firebase.auth().signOut().then(() => {
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>

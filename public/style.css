@@ -1,0 +1,135 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body {
+  background: linear-gradient(135deg, #e8f5e9, #ffffff);
+  color: #333;
+  padding: 20px;
+  background-image: url('back-ground.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+header {
+  text-align: center;
+  padding: 1rem;
+  background:
+  linear-gradient(127deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%),
+  linear-gradient(336deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%);
+  color: white;
+  border-radius: 8px;
+  position: relative;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  background:
+  linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+  linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+  color: white;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #1168e3;
+}
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+}
+.label-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #444;
+}
+.info {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+.progress-container {
+  margin-bottom: 1rem;
+}
+.progress-container label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+progress {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+}
+progress::-webkit-progress-bar {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+progress::-webkit-progress-value {
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+progress::-moz-progress-bar {
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+.pump-status-container {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.pump-status {
+  font-weight: bold;
+}
+.on { color: green; }
+.off { color: red; }
+.threshold-control {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.threshold-control label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.threshold-control input {
+  width: 80px;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #388e3c;
+  color: white;
+  font-weight: bold;
+}
+#logoutBtn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem 1rem;
+  background: #e53935;
+}
